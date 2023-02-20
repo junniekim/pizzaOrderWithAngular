@@ -1,0 +1,49 @@
+<div class="row">
+  <h2 class="col-lg-12" style="text-align: center">
+    Check out and evaluate our workers!
+  </h2>
+  <h4 class="col-lg-12" style="text-align: center">
+    *You can only vote once a day for each employee*
+  </h4>
+
+  <div class="col-12">
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Title</th>
+            <th>Duty</th>
+            <th>Rate</th>
+            <th>Vote</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let x of staff">
+            <td>{{ x.name }}</td>
+            <td>{{ x.title }}</td>
+            <td>{{ x.duty }}</td>
+            <td>{{ x.rate }}</td>
+
+            <td>
+              <button
+                id="up{{ x.name }}"
+                class="btn btn-success"
+                (click)="onUp(x)"
+              >
+                Upvote
+              </button>
+              <button
+                id="down{{ x.name }}"
+                class="btn btn-danger"
+                (click)="onDown(x)"
+              >
+                Downvote
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

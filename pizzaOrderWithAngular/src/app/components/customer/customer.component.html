@@ -1,0 +1,91 @@
+<div class="textInTheMiddle">
+  <h2>Please sign up and join our community by clicking "Sign Up"!</h2>
+</div>
+
+<div class="row">
+  <form #customerForm="ngForm" (ngSubmit)="onSubmit(customerForm)">
+    <div class="modal-body">
+      <div class="row col-12 form-group">
+        <label>First Name:</label>
+        <input
+          appName
+          type="text"
+          id="firstName"
+          class="form-control"
+          name="firstName"
+          ngModel
+        />
+      </div>
+      <div class="row col-12 form-group">
+        <label>Last Name:</label>
+        <input
+          type="text"
+          class="form-control"
+          id="lastName"
+          appName
+          name="lastName"
+          ngModel
+        />
+      </div>
+      <div class="row col-12 form-group">
+        <label>Phone Number:</label>
+
+        <input
+          type="text"
+          id="phone"
+          placeholder="Example: 123 456 7890"
+          appPhone
+          class="form-control"
+          name="phone"
+          ngModel
+        />
+      </div>
+      <div class="row col-12 form-group">
+        <label>Email (Gmail Only):</label>
+        <input
+          type="email"
+          appEmail
+          id="email"
+          class="form-control"
+          name="email"
+          ngModel
+        />
+      </div>
+      <div class="row col-12 form-group">
+        <label>Birthday:</label>
+        <input
+          id="birthday"
+          type="date"
+          required
+          class="form-control"
+          ngModel
+          name="birthday"
+        />
+      </div>
+    </div>
+    <div class="modal-footer">
+      <br />
+      <br />
+      <br />
+      <button
+        class="btn btn-primary"
+        [disabled]="!customerForm.valid"
+        type="submit"
+        (click)="clear()"
+      >
+        Submit
+      </button>
+    </div>
+  </form>
+  <ul>
+    <li>Do not use autofill</li>
+    <li>
+      First name and last name must not contain a number. It may contain , . -
+      and space
+    </li>
+    <li>
+      Phone number can be seperated by . or - or space, but not a mix of these
+    </li>
+    <li>Email must be Gmail</li>
+  </ul>
+</div>
