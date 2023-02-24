@@ -1,0 +1,58 @@
+<div style="border-style: solid; padding: 20px; border-width: thin">
+  <h3>Add Drinks:</h3>
+  <div class="col-12">
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Menu</th>
+            <th>Big Bottle Price</th>
+            <th>Small Bottle Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let x of drinkList">
+            <td>{{ x.name }}</td>
+            <td>${{ x.largePrice }}</td>
+            <td>${{ x.smallPrice }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <h3>Drink Kart:</h3>
+  <div class="add-drinks-form" [formGroup]="drinkGroup">
+    <ng-container formArrayName="drinkArray">
+      <!-- go through element in group of forms -->
+      <ng-container *ngFor="let drink of drinks.controls; let i = index">
+        <!-- for each item in array form  -->
+        <div class="drink-form-row row" [formGroupName]="i">
+          <div class="col-lg-5">
+            <label for="name">Name:</label>
+            <ng-select
+              [items]="drinkList"
+              bindValue="id"
+              bindLabel="name"
+              [searchable]="true"
+              formControlName="name"
+            >
+            </ng-select>
+          </div>
+          <div class="col-lg-5">
+            <label for="size">Size:</label>
+            <ng-select [items]="drinkSize" formControlName="size"> </ng-select>
+          </div>
+          <div class="col-lg-2" style="display: flex; margin: auto">
+            <button class="btn btn-danger" (click)="deleteDrink(i)">
+              Delete
+            </button>
+          </div>
+        </div>
+
+        <!-- for each item in array form  -->
+      </ng-container>
+    </ng-container>
+    <h6>Drink Total: ${{ sum }}</h6>
+    <button (click)="addDrink()">Add Drink</button>
+  </div>
+</div>
