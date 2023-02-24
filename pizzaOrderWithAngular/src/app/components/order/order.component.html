@@ -1,1 +1,21 @@
-<p>order works!</p>
+<h2 class="textInTheMiddle">
+  Please add pizzas, drinks, desserts and place order!
+</h2>
+
+<form [formGroup]="orderForm">
+  <app-drink-form-array
+    [drinkList]="drink"
+    [drinkGroup]="drinkFormGroup"
+  ></app-drink-form-array>
+  <hr />
+  <app-dessert-form-array
+    [dessertList]="dessert"
+    [dessertGroup]="dessertFormGroup"
+  >
+    <!-- passing object array with fixed data-->
+
+    <!-- Linking child and parent to the same form   -->
+  </app-dessert-form-array>
+
+  <button class="btn btn-success" (click)="test()">Submit</button>
+</form>

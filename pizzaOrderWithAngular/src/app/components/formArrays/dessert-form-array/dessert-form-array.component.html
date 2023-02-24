@@ -1,0 +1,51 @@
+<div style="border-style: solid; padding: 20px; border-width: thin">
+  <h3>Add Desserts:</h3>
+  <div class="col-12">
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Menu</th>
+            <th>Price</th>
+            <th>Allergy Warning</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let x of dessertList">
+            <td>{{ x.name }}</td>
+            <td>${{ x.price }}</td>
+            <td>{{ x.allergy }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <h3>Dessert Kart:</h3>
+  <div class="add-desserts-form" [formGroup]="dessertGroup">
+    <ng-container formArrayName="dessertArray">
+      <ng-container *ngFor="let x of desserts.controls; let i = index">
+        <div class="desserts-form-row row" [formGroupName]="i">
+          <div class="col-lg-10">
+            <label for="name">Name:</label>
+            <ng-select
+              [items]="dessertList"
+              bindValue="id"
+              bindLabel="name"
+              [searchable]="true"
+              formControlName="name"
+            >
+            </ng-select>
+          </div>
+
+          <div class="col-lg-2" style="display: flex; margin: auto">
+            <button class="btn btn-danger" (click)="deleteDessert(i)">
+              Delete
+            </button>
+          </div>
+        </div>
+      </ng-container>
+    </ng-container>
+    <h6>Dessert Total: ${{ sum }}</h6>
+    <button (click)="addDessert()">Add Dessert</button>
+  </div>
+</div>
