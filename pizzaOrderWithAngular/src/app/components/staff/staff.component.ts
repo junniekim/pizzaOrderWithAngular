@@ -8,11 +8,11 @@ import { Staff } from 'src/app/model/staff.model';
 })
 export class StaffComponent {
   staff: Array<Staff> = [
-    { name: 'John Cena', title: 'Owner', duty: 'Being a boss', rate: 10 },
+    { name: 'John Cena', title: 'Owner', duty: 'Boss around', rate: 10 },
     {
       name: 'Jacob Raby',
       title: 'Chief Baker',
-      duty: 'Baking pizza',
+      duty: 'Bake pizza',
       rate: 253,
     },
     {
@@ -25,7 +25,7 @@ export class StaffComponent {
     {
       name: 'Jun Styer',
       title: 'Delivery man',
-      duty: 'Delivering pizza',
+      duty: 'Deliver pizza',
       rate: 24,
     },
   ];

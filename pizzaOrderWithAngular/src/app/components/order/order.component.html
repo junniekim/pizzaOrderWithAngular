@@ -1,21 +1,76 @@
 <h2 class="textInTheMiddle">
   Please add pizzas, drinks, desserts and place order!
 </h2>
+<div style="padding: 25px; border-style: solid; border-width: medium">
+  <h3 class="textInTheMiddle">Order Form</h3>
+  <form [formGroup]="orderForm">
+    <app-pizza-form-array
+      [pizzaGroup]="pizzaFormGroup"
+      (dataEvent)="getSumFromPizza($event)"
+    ></app-pizza-form-array>
+    <hr />
+    <app-drink-form-array
+      (dataEvent)="getSumFromDrink($event)"
+      [drinkList]="drink"
+      [drinkGroup]="drinkFormGroup"
+    ></app-drink-form-array>
+    <hr />
+    <app-dessert-form-array
+      (dataEvent)="getSumFromDessert($event)"
+      [dessertList]="dessert"
+      [dessertGroup]="dessertFormGroup"
+    >
+      <!-- passing object array with fixed data-->
 
-<form [formGroup]="orderForm">
-  <app-drink-form-array
-    [drinkList]="drink"
-    [drinkGroup]="drinkFormGroup"
-  ></app-drink-form-array>
-  <hr />
-  <app-dessert-form-array
-    [dessertList]="dessert"
-    [dessertGroup]="dessertFormGroup"
-  >
-    <!-- passing object array with fixed data-->
+      <!-- Linking child and parent to the same form   -->
+    </app-dessert-form-array>
+    <hr />
+    <div style="display: flex; justify-content: center">
+      <button class="btn btn-success" (click)="finalSubmit()">Submit</button>
+    </div>
+  </form>
+</div>
 
-    <!-- Linking child and parent to the same form   -->
-  </app-dessert-form-array>
-
-  <button class="btn btn-success" (click)="test()">Submit</button>
-</form>
+<ng-template #grandTotalModal>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Final Confirmation</h4>
+    <button
+      type="button"
+      class="btn-close close pull-right"
+      aria-label="Close"
+      (click)="onModalClose()"
+    >
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <form (ngSubmit)="onModalSubmit()">
+    <div class="modal-body">
+      List of Pizzas Selected:
+      <div *ngFor="let x of extractPizza; let i = index">
+        {{ i + 1 }}. {{ x.pizzaSauce }} Sauce with {{ x.pizzaTopping }}
+        <div *ngIf="x.largeIt == true" style="display: inline">
+          (Extra Large)
+        </div>
+      </div>
+      <br />
+      List of Drinks Selected:
+      <div *ngFor="let x of extractDrink; let i = index">
+        {{ i + 1 }}. {{ x.size }} {{ x.name }}
+      </div>
+      <br />
+      List of Desserts Selected:
+      <div *ngFor="let x of extractDessert; let i = index">
+        {{ i + 1 }}. {{ x.name }}
+      </div>
+      <br />
+      Grand Total:
+      {{ grandTotal }}
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary" type="submit">Place Order</button>
+      <button class="btn btn-danger" type="reset" (click)="onModalClose()">
+        Cancel
+      </button>
+    </div>
+  </form>
+</ng-template>

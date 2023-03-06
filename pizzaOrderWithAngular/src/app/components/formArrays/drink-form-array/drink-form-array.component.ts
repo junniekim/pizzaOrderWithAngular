@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { EventEmitter, Output, Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Drink } from 'src/app/model/drink.model';
 
@@ -10,6 +10,7 @@ import { Drink } from 'src/app/model/drink.model';
 export class DrinkFormArrayComponent implements OnInit {
   @Input() drinkList: Array<Drink> = [];
   @Input() drinkGroup!: FormGroup;
+  @Output() dataEvent = new EventEmitter<number>();
   drinkSize: Array<string> = ['Small', 'Large'];
   constructor(private fb: FormBuilder) {}
   ngOnInit(): void {}
@@ -40,16 +41,17 @@ export class DrinkFormArrayComponent implements OnInit {
       if (size == 'Large' && name != '') {
         this.sum +=
           this.drinkList.find(
-            (x) => x.id == this.drinks.at(i).get('name')?.value
+            (x) => x.name == this.drinks.at(i).get('name')?.value
           )?.largePrice ?? 0;
       }
       //size is small, drink not specified
       else if (size == 'Small' && name != '') {
         this.sum +=
           this.drinkList.find(
-            (x) => x.id == this.drinks.at(i).get('name')?.value
+            (x) => x.name == this.drinks.at(i).get('name')?.value
           )?.smallPrice ?? 0;
       }
+      this.dataEvent.emit(this.sum);
     }
   }
   deleteDrink(lessonIndex: number) {
