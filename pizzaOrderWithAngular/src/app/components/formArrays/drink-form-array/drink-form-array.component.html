@@ -31,16 +31,22 @@
             <label for="name">Name:</label>
             <ng-select
               [items]="drinkList"
-              bindValue="id"
+              bindValue="name"
               bindLabel="name"
               [searchable]="true"
               formControlName="name"
+              (change)="getSum()"
             >
             </ng-select>
           </div>
           <div class="col-lg-5">
             <label for="size">Size:</label>
-            <ng-select [items]="drinkSize" formControlName="size"> </ng-select>
+            <ng-select
+              [items]="drinkSize"
+              formControlName="size"
+              (change)="getSum()"
+            >
+            </ng-select>
           </div>
           <div class="col-lg-2" style="display: flex; margin: auto">
             <button class="btn btn-danger" (click)="deleteDrink(i)">

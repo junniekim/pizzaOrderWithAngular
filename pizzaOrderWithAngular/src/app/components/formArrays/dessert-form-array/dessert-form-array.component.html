@@ -29,9 +29,10 @@
             <label for="name">Name:</label>
             <ng-select
               [items]="dessertList"
-              bindValue="id"
+              bindValue="name"
               bindLabel="name"
               [searchable]="true"
+              (change)="getSum()"
               formControlName="name"
             >
             </ng-select>

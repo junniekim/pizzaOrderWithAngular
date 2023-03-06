@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { Dessert } from 'src/app/model/dessert.model';
 import { Drink } from 'src/app/model/drink.model';
-import { Pizza } from 'src/app/model/pizza.model';
 import { FormControl, FormGroup, FormBuilder, Form } from '@angular/forms';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { Pizza } from 'src/app/model/pizza.model';
 
 @Component({
   selector: 'app-order',
@@ -10,7 +11,7 @@ import { FormControl, FormGroup, FormBuilder, Form } from '@angular/forms';
   styleUrls: ['./order.component.css'],
 })
 export class OrderComponent {
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private modalService: BsModalService) {}
   orderForm = this.fb.group({
     drinkGroup: this.fb.group({
       drinkArray: this.fb.array([]),
@@ -22,7 +23,9 @@ export class OrderComponent {
       pizzaArray: this.fb.array([]),
     }),
   });
-
+  modalRef?: BsModalRef;
+  @ViewChild('grandTotalModal', { static: true })
+  grandTotalModal!: TemplateRef<any>;
   drink: Array<Drink> = [
     { id: 1, name: 'Coke', largePrice: 1.99, smallPrice: 1 },
     { id: 2, name: 'Sprite', largePrice: 2.99, smallPrice: 1 },
@@ -36,10 +39,61 @@ export class OrderComponent {
   get drinkFormGroup() {
     return this.orderForm.get('drinkGroup') as FormGroup;
   }
-  test() {
-    console.log(this.orderForm);
+  get pizzaFormGroup() {
+    return this.orderForm.get('pizzaGroup') as FormGroup;
   }
+  grandTotal = 0;
+  selectedPizza: Array<Pizza> = [];
+  selectedDrink: Array<Drink> = [];
 
+  get extractDessert() {
+    return (this.orderForm.get('dessertGroup') as FormGroup).controls[
+      'dessertArray'
+    ].value;
+    //let name = this.desserts.at(i).get('name')?.value;
+  }
+  get extractDrink() {
+    return (this.orderForm.get('drinkGroup') as FormGroup).controls[
+      'drinkArray'
+    ].value;
+  }
+  get extractPizza() {
+    return (this.orderForm.get('pizzaGroup') as FormGroup).controls[
+      'pizzaArray'
+    ].value;
+  }
+  finalSubmit() {
+    this.calculateFinalGrandTotal();
+    this.modalRef = this.modalService.show(this.grandTotalModal);
+  }
+  onModalClose(): void {
+    this.modalRef?.hide();
+  }
+  onModalSubmit(): void {
+    this.modalRef?.hide();
+    alert('Order Successfully Submitted');
+    window.location.reload();
+    console.log('submitted');
+  }
+  drinkTotal = 0;
+  dessertTotal = 0;
+  pizzaTotal = 0;
+  calculateFinalGrandTotal() {
+    this.grandTotal = 0;
+    this.grandTotal = this.drinkTotal + this.dessertTotal + this.pizzaTotal;
+  }
+  getSumFromDrink(data: number) {
+    this.drinkTotal = 0;
+    this.drinkTotal += data;
+  }
+  getSumFromDessert(data: number) {
+    this.dessertTotal = 0;
+    this.dessertTotal += data;
+  }
+  getSumFromPizza(data: number) {
+    this.pizzaTotal = 0;
+    this.pizzaTotal += data;
+  }
   dessert: Array<Dessert> = [
     {
       price: 6,

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, EventEmitter, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Dessert } from 'src/app/model/dessert.model';
 
@@ -10,6 +10,7 @@ import { Dessert } from 'src/app/model/dessert.model';
 export class DessertFormArrayComponent implements OnInit {
   @Input() dessertList: Array<Dessert> = [];
   @Input() dessertGroup!: FormGroup;
+  @Output() dataEvent = new EventEmitter<number>();
   constructor(private fb: FormBuilder) {}
   ngOnInit(): void {}
   get desserts() {
@@ -35,10 +36,11 @@ export class DessertFormArrayComponent implements OnInit {
       if (name != '') {
         this.sum +=
           this.dessertList.find(
-            (x) => x.id == this.desserts.at(i).get('name')?.value
+            (x) => x.name == this.desserts.at(i).get('name')?.value
           )?.price ?? 0;
       }
     }
+    this.dataEvent.emit(this.sum);
   }
   deleteDessert(lessonIndex: number) {
     this.desserts.removeAt(lessonIndex);

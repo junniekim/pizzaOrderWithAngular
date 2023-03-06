@@ -1,1 +1,51 @@
-<p>pizza-form-array works!</p>
+<div style="border-style: solid; padding: 20px; border-width: thin">
+  <h3>Add Pizzas:</h3>
+  <h5 class="textInTheMiddle">
+    All pizza is 10 dollars. You can increase the size to 20 inches by adding 5
+    dollars
+    <br />
+    Please choose a topping and sauce
+  </h5>
+  <h3 class=>Pizza Kart:</h3>
+  <div class="add-pizzas-form" [formGroup]="pizzaGroup">
+    <ng-container formArrayName="pizzaArray">
+      <!-- go through element in group of forms -->
+      <ng-container *ngFor="let pizza of pizzas.controls; let i = index">
+        <!-- for each item in array form  -->
+        <div class="pizza-form-row row" [formGroupName]="i">
+          <div class="col-lg-4">
+            <label for="name">Sauce:</label>
+            <ng-select
+              [items]="pizzaSauce" 
+              bindLabel = "sauce"
+              bindValue = "pizzaSauce"
+              formControlName="pizzaSauce"
+              (change)="getSum()"
+            >
+            </ng-select>
+          </div>
+          
+          <div class="col-lg-4">
+            <label for="size">Topping:</label>
+            <ng-select [items]="pizzaTopping" bindLabel = "topping"
+            bindValue = "pizzaTopping"formControlName="pizzaTopping" (change)="getSum()"> </ng-select>
+          </div>
+         
+          <div class="col-lg-2" style="display: flex; margin: auto ">
+            Make it large:
+            <input type="checkbox" id="pizzaSize" formControlName="largeIt" value="Large"(change)="getSum()">
+          </div>
+          <div class="col-lg-2" style="display: flex; margin: auto">
+            <button class="btn btn-danger" (click)="deletePizza(i)">
+              Delete
+            </button>
+          </div>
+        </div>
+
+        <!-- for each item in array form  -->
+      </ng-container>
+    </ng-container>
+    <h6>Pizza Total: ${{ sum }}</h6>
+    <button (click)="addPizza()">Add Pizza</button>
+  </div>
+</div>
